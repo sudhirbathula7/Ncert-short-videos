@@ -1,0 +1,19 @@
+﻿# Python Virtual Environment
+.venv/
+env/
+venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*.class
+
+# Temporary outputs & big assets (optional, saves storage)
+content/**/assets/*.mp4
+content/**/assets/*.wav
+content/**/assets/*.mp3
+temp/
+logs/
+
+# Environment Variables / API Keys
+.env
