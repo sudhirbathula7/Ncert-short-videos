@@ -1,2 +1,0 @@
-# Blueprint: Atmosphere, Insolation & Temperature
-

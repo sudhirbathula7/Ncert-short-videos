@@ -1,2 +1,0 @@
-# Blueprint: Landforms & Geomorphic Processes
-

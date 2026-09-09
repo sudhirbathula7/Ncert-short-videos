@@ -3,6 +3,7 @@ import sys
 import webbrowser
 import base64
 import re
+from pathlib import Path
 from markdown_pdf import MarkdownPdf, Section
 
 def get_logo_b64(logo_path="assets/brand_logo.png"):
@@ -13,7 +14,7 @@ def get_logo_b64(logo_path="assets/brand_logo.png"):
 
 def clean_and_extract_title(md_text):
     lines = md_text.splitlines()
-    title = "Oceans & Ocean Water Movements"
+    title = "Economics Study Sheet"
     cleaned_lines = []
     found_title = False
 
@@ -38,11 +39,23 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
         print(f"File not found: {md_file_path}")
         return
 
+    path_obj = Path(md_file_path).resolve()
+    
+    # Extract subject and topic names from path
+    # Expected path pattern: .../content/<subject>/<topic>/study_page.md
     if output_pdf_path is None:
-        topic_folder = os.path.dirname(md_file_path)
-        topic_name = os.path.basename(topic_folder)
-        os.makedirs("output/pdf", exist_ok=True)
-        output_pdf_path = os.path.join("output", "pdf", f"{topic_name}_study_sheet.pdf")
+        parts = path_obj.parts
+        if "content" in parts:
+            content_idx = parts.index("content")
+            subject_folder = parts[content_idx + 1] if len(parts) > content_idx + 1 else "general"
+            topic_name = parts[content_idx + 2] if len(parts) > content_idx + 2 else path_obj.stem
+        else:
+            subject_folder = path_obj.parent.parent.name
+            topic_name = path_obj.parent.name
+
+        out_dir = Path("output") / "pdf" / subject_folder
+        out_dir.mkdir(parents=True, exist_ok=True)
+        output_pdf_path = str(out_dir / f"{topic_name}_study_sheet.pdf")
 
     with open(md_file_path, "r", encoding="utf-8") as f:
         md_text = f.read()
@@ -50,7 +63,6 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     title, body_md = clean_and_extract_title(md_text)
     logo_b64 = get_logo_b64()
 
-    # Enhanced line-spacing profile for improved readability
     cornell_css = """
     @page {
         size: A4;
@@ -59,7 +71,7 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 8.5pt;
-        line-height: 1.32;
+        line-height: 1.35;
         color: #1a202c;
         margin: 0;
         padding: 0;
@@ -204,7 +216,7 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     pdf.save(output_pdf_path)
 
     abs_path = os.path.abspath(output_pdf_path)
-    print(f"Generated PDF with relaxed line-height: {abs_path}")
+    print(f"Generated PDF: {abs_path}")
     if hasattr(os, "startfile"):
         os.startfile(abs_path)
     else:
