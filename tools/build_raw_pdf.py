@@ -1,4 +1,4 @@
-# tools/build_pdf_study_sheet.py
+# tools/build_raw_pdf.py
 
 import os
 import sys
@@ -16,7 +16,7 @@ def get_logo_b64(logo_path="assets/brand_logo.png"):
 
 def clean_and_extract_title(md_text):
     lines = md_text.splitlines()
-    title = "Study Sheet"
+    title = "Summary"
     cleaned_lines = []
     found_title = False
 
@@ -25,8 +25,6 @@ def clean_and_extract_title(md_text):
         if stripped.startswith("# ") and not found_title:
             raw = stripped.lstrip("# ").strip()
             raw = re.sub(r"^[^\w\s]+", "", raw).strip()
-            if "High-Yield Revision Sheet:" in raw:
-                raw = raw.replace("High-Yield Revision Sheet:", "").strip()
             title = raw
             found_title = True
             continue
@@ -36,7 +34,7 @@ def clean_and_extract_title(md_text):
 
     return title, "\n".join(cleaned_lines)
 
-def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
+def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     if not os.path.exists(md_file_path):
         print(f"File not found: {md_file_path}")
         return
@@ -53,9 +51,9 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
             subject_folder = path_obj.parent.parent.name
             topic_name = path_obj.parent.name
 
-        out_dir = Path("output") / "Study notes" / subject_folder
+        out_dir = Path("output") / "raw ncert data" / subject_folder
         out_dir.mkdir(parents=True, exist_ok=True)
-        output_pdf_path = str(out_dir / f"{topic_name}_study_sheet.pdf")
+        output_pdf_path = str(out_dir / f"{topic_name}_raw_notes.pdf")
 
     with open(md_file_path, "r", encoding="utf-8") as f:
         md_text = f.read()
@@ -63,15 +61,15 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     title, body_md = clean_and_extract_title(md_text)
     logo_b64 = get_logo_b64()
 
-    cornell_css = """
+    raw_css = """
     @page {
         size: A4;
-        margin: 8mm 14mm 8mm 14mm;
+        margin: 8mm 12mm 8mm 12mm;
     }
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 9.5pt;
-        line-height: 1.35;
+        font-size: 10pt;
+        line-height: 1.3;
         color: #1a202c;
         margin: 0;
         padding: 0;
@@ -90,36 +88,36 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
         vertical-align: middle;
     }
     .header-logo-td {
-        width: 52px;
+        width: 44px;
     }
     .brand-logo-img {
-        width: 44px;
+        width: 36px;
         height: auto;
         display: block;
     }
     .header-title-td {
         text-align: left;
-        padding-left: 8px;
+        padding-left: 6px;
     }
     .header-title-text {
         color: #1a365d;
-        font-size: 14.5pt;
+        font-size: 12pt;
         font-weight: 700;
         letter-spacing: -0.2px;
         margin: 0;
     }
     .content-column {
-        width: 79%;
+        width: 75%;
         float: left;
-        padding-right: 10px;
+        padding-right: 12px;
         box-sizing: border-box;
         border-right: 1px dashed #cbd5e0;
     }
     .notes-column {
-        width: 21%;
+        width: 25%;
         float: right;
         box-sizing: border-box;
-        padding-left: 8px;
+        padding-left: 10px;
         text-align: center;
     }
     .notes-tag {
@@ -130,30 +128,33 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
         display: block;
         margin-top: 4px;
     }
+    h1 {
+        color: #1a365d;
+        font-size: 11.5pt;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 2px;
+        margin-top: 10px;
+        margin-bottom: 4px;
+    }
     h2 {
         color: #2b6cb0;
         font-size: 11pt;
-        margin: 5px 0 2px 0;
+        margin: 10px 0 3px 0;
     }
     h3 {
         color: #2c5282;
         font-size: 10pt;
-        margin: 4px 0 2px 0;
-    }
-    h4 {
-        color: #9c4221;
-        font-size: 9.5pt;
-        margin: 3px 0 1px 0;
+        margin: 8px 0 2px 0;
     }
     p { 
-        margin: 2px 0 3px 0; 
+        margin: 3px 0 5px 0; 
     }
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 4px 0;
-        font-size: 8.5pt;
-        line-height: 1.22;
+        margin: 6px 0;
+        font-size: 9.5pt;
+        line-height: 1.2;
     }
     th, td {
         border: 1px solid #cbd5e0;
@@ -169,22 +170,21 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     blockquote {
         background-color: #f7fafc;
         border-left: 2.5px solid #3182ce;
-        margin: 3px 0;
-        padding: 3px 6px;
-        font-size: 9pt;
-        line-height: 1.28;
+        margin: 5px 0;
+        padding: 4px 8px;
+        font-size: 10pt;
     }
     ul, ol {
-        margin: 2px 0 3px 0;
+        margin: 3px 0 5px 0;
         padding-left: 14px;
     }
     li { 
-        margin-bottom: 2px; 
+        margin-bottom: 3px; 
     }
     hr {
         border: none;
         border-top: 1px solid #e2e8f0;
-        margin: 4px 0;
+        margin: 6px 0;
     }
     """
 
@@ -195,7 +195,7 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
   <tr>
     {logo_cell}
     <td class="header-title-td">
-      <div class="header-title-text">High-Yield Revision Sheet: {title}</div>
+      <div class="header-title-text">NCERT Summary: {title}</div>
     </td>
   </tr>
 </table>
@@ -212,11 +212,11 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
 """
 
     pdf = MarkdownPdf(toc_level=0)
-    pdf.add_section(Section(wrapped_content, paper_size="A4"), user_css=cornell_css)
+    pdf.add_section(Section(wrapped_content, paper_size="A4"), user_css=raw_css)
     pdf.save(output_pdf_path)
 
     abs_path = os.path.abspath(output_pdf_path)
-    print(f"Generated PDF: {abs_path}")
+    print(f"Generated Raw Notes PDF: {abs_path}")
     if hasattr(os, "startfile"):
         os.startfile(abs_path)
     else:
@@ -224,6 +224,6 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python tools/build_pdf_study_sheet.py <path_to_study_page.md>")
+        print("Usage: python tools/build_raw_pdf.py <path_to_raw_notes.md>")
         sys.exit(1)
-    convert_study_sheet_to_pdf(sys.argv[1])
+    convert_raw_notes_to_pdf(sys.argv[1])
