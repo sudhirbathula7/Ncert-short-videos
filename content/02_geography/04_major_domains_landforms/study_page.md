@@ -1,5 +1,3 @@
-# High-Yield Revision Sheet: Major Domains & Landforms
-
 # Major Domains & Major Landforms of the Earth
 *Subject: Physical Geography | NCERT Class 6 Ch. 5 & 6 | UPSC & State PSC Core*
 

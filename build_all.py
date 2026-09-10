@@ -11,6 +11,26 @@ def build_all_curriculum():
         print("Error: 'content' directory not found.")
         return
 
+    print("Select PDF Category to Build:")
+    print("  1. Raw Notes")
+    print("  2. Study Notes")
+    print("  3. Both")
+    cat_choice = input("Enter choice (1-3): ").strip()
+
+    build_raw = False
+    build_study = False
+
+    if cat_choice == "1":
+        build_raw = True
+    elif cat_choice == "2":
+        build_study = True
+    elif cat_choice == "3" or cat_choice == "":
+        build_raw = True
+        build_study = True
+    else:
+        print("Invalid choice. Aborting.")
+        return
+
     # List available subjects dynamically from the content directory
     subjects = [d.name for d in content_dir.iterdir() if d.is_dir()]
     subjects.sort()
@@ -19,7 +39,7 @@ def build_all_curriculum():
         print("No subject folders found inside 'content'.")
         return
 
-    print("Available subjects:")
+    print("\nAvailable subjects:")
     for idx, subj in enumerate(subjects, 1):
         print(f"  {idx}. {subj}")
 
@@ -55,13 +75,13 @@ def build_all_curriculum():
             raw_notes_file = topic_path / "raw_notes.md"
             study_page_file = topic_path / "study_page.md"
             
-            if raw_notes_file.exists():
+            if build_raw and raw_notes_file.exists():
                 try:
                     convert_raw_notes_to_pdf(str(raw_notes_file))
                 except Exception as e:
                     print(f"     [Error building raw PDF for {topic_path.name}]: {e}")
             
-            if study_page_file.exists():
+            if build_study and study_page_file.exists():
                 try:
                     convert_study_sheet_to_pdf(str(study_page_file))
                 except Exception as e:
