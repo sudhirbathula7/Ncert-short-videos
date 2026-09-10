@@ -25,6 +25,7 @@
 | **Tundra** | Arctic shores & mountain alpine zones beyond tree line | Permafrost soil; extremely short summer growing season | Mosses, Lichens, Dwarf willow | Musk-ox, Arctic hare, Reindeer, Polar bear |
 
 ---
+
 ### 🌾 Global Grasslands Classification
 
 - **Tropical Grasslands (Tall, coarse, 3–4m tall):**

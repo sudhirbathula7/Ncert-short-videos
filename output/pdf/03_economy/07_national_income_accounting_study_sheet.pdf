@@ -26223,6 +26223,7 @@ endobj
 endobj
 
 42 0 obj
+<<<<<<< Updated upstream:output/pdf/03_economy/07_national_income_accounting_study_sheet.pdf
 <</Font<</F0 18 0 R/F1 24 0 R/F2 12 0 R/F3 6 0 R>>>>
 endobj
 
@@ -26339,6 +26340,9 @@ endobj
 
 45 0 obj
 <</CreationDate(D:20260909234622+07'30')/ModDate(D:20260909234622+07'30')/Creator(PyMuPDF library: https://pypi.org/project/PyMuPDF)/Producer null/Title null/Author null/Subject null/Keywords null>>
+=======
+<</CreationDate(D:20260908175430+07'30')/ModDate(D:20260908175430+07'30')/Creator(PyMuPDF library: https://pypi.org/project/PyMuPDF)/Producer null/Title null/Author null/Subject null/Keywords null>>
+>>>>>>> Stashed changes:output/pdf/10_oceans_ocean_water_movements_study_sheet.pdf
 endobj
 
 xref
@@ -26391,7 +26395,11 @@ xref
 0005739108 00000 n 
 
 trailer
+<<<<<<< Updated upstream:output/pdf/03_economy/07_national_income_accounting_study_sheet.pdf
 <</Size 46/Info 45 0 R/Root 1 0 R/ID[<C28DC3B3C3817CC39F55C29049C2B947><62743FC021DC10D8F9D0B1DF12AC52D9>]>>
+=======
+<</Size 43/Info 42 0 R/Root 1 0 R/ID[<41C297C295C380C39339C2A4C38DC3AD><1618130415C0245C2DF405A38610E6DD>]>>
+>>>>>>> Stashed changes:output/pdf/10_oceans_ocean_water_movements_study_sheet.pdf
 startxref
 5739324
 %%EOF
