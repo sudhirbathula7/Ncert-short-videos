@@ -25,6 +25,8 @@ def clean_and_extract_title(md_text):
         if stripped.startswith("# ") and not found_title:
             raw = stripped.lstrip("# ").strip()
             raw = re.sub(r"^[^\w\s]+", "", raw).strip()
+            raw = re.sub(r"\s*[-—]\s*Raw Notes", "", raw, flags=re.IGNORECASE).strip()
+            raw = re.sub(r"Raw Notes", "", raw, flags=re.IGNORECASE).strip()
             title = raw
             found_title = True
             continue
@@ -53,7 +55,7 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
 
         out_dir = Path("output") / "raw ncert data" / subject_folder
         out_dir.mkdir(parents=True, exist_ok=True)
-        output_pdf_path = str(out_dir / f"{topic_name}_raw_notes.pdf")
+        output_pdf_path = str(out_dir / f"{topic_name}.pdf")
 
     with open(md_file_path, "r", encoding="utf-8") as f:
         md_text = f.read()
@@ -69,7 +71,7 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 10pt;
-        line-height: 1.37;
+        line-height: 1.35;
         color: #1a202c;
         margin: 0;
         padding: 0;
@@ -222,7 +224,7 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     pdf.save(output_pdf_path)
 
     abs_path = os.path.abspath(output_pdf_path)
-    print(f"Generated Raw Notes PDF: {abs_path}")
+    print(f"Generated PDF: {abs_path}")
     if hasattr(os, "startfile"):
         os.startfile(abs_path)
     else:

@@ -11,11 +11,37 @@ def build_all_curriculum():
         print("Error: 'content' directory not found.")
         return
 
-    # Iterate through all subject folders (e.g., 01_history, 02_geography, 03_economy)
-    for subject_path in content_dir.iterdir():
-        if not subject_path.is_dir():
-            continue
-        
+    # List available subjects dynamically from the content directory
+    subjects = [d.name for d in content_dir.iterdir() if d.is_dir()]
+    subjects.sort()
+
+    if not subjects:
+        print("No subject folders found inside 'content'.")
+        return
+
+    print("Available subjects:")
+    for idx, subj in enumerate(subjects, 1):
+        print(f"  {idx}. {subj}")
+
+    choice = input("\nEnter the number or name of the subject you want to process (or press Enter for all): ").strip()
+
+    target_subjects = []
+    if choice == "":
+        target_subjects = subjects
+    elif choice.isdigit() and 1 <= int(choice) <= len(subjects):
+        target_subjects = [subjects[int(choice) - 1]]
+    else:
+        # Match by name if user typed text
+        matching = [s for s in subjects if choice.lower() in s.lower()]
+        if matching:
+            target_subjects = matching
+        else:
+            print(f"Invalid selection '{choice}'. Aborting.")
+            return
+
+    # Iterate through selected subjects
+    for subj_name in target_subjects:
+        subject_path = content_dir / subj_name
         print(f"\nProcessing Subject: {subject_path.name}")
         
         # Iterate through each topic folder inside the subject
@@ -41,7 +67,7 @@ def build_all_curriculum():
                 except Exception as e:
                     print(f"     [Error building study sheet PDF for {topic_path.name}]: {e}")
 
-    print("\nBatch compilation complete! All available PDFs generated.")
+    print("\nBatch compilation complete! Selected PDFs generated.")
 
 if __name__ == "__main__":
     build_all_curriculum()
