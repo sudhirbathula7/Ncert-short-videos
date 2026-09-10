@@ -70,8 +70,8 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
     }
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 9.5pt;
-        line-height: 1.35;
+        font-size: 10pt;
+        line-height: 1.37;
         color: #1a202c;
         margin: 0;
         padding: 0;

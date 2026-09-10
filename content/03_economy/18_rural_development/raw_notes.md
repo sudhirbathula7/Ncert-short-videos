@@ -1,4 +1,4 @@
-# Topic 18: Rural Development — Raw Notes
+# Topic 18: Rural Development - Raw notes
 
 ## Source Integration
 - Class 11 Indian Economic Development, Chapter 5: Rural Development

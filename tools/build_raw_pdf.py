@@ -64,12 +64,12 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     raw_css = """
     @page {
         size: A4;
-        margin: 8mm 12mm 8mm 12mm;
+        margin: 8mm 14mm 8mm 14mm;
     }
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 10pt;
-        line-height: 1.3;
+        line-height: 1.37;
         color: #1a202c;
         margin: 0;
         padding: 0;
@@ -88,36 +88,36 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
         vertical-align: middle;
     }
     .header-logo-td {
-        width: 44px;
+        width: 52px;
     }
     .brand-logo-img {
-        width: 36px;
+        width: 44px;
         height: auto;
         display: block;
     }
     .header-title-td {
         text-align: left;
-        padding-left: 6px;
+        padding-left: 8px;
     }
     .header-title-text {
         color: #1a365d;
-        font-size: 12pt;
+        font-size: 14.5pt;
         font-weight: 700;
         letter-spacing: -0.2px;
         margin: 0;
     }
     .content-column {
-        width: 75%;
+        width: 79%;
         float: left;
-        padding-right: 12px;
+        padding-right: 10px;
         box-sizing: border-box;
         border-right: 1px dashed #cbd5e0;
     }
     .notes-column {
-        width: 25%;
+        width: 21%;
         float: right;
         box-sizing: border-box;
-        padding-left: 10px;
+        padding-left: 8px;
         text-align: center;
     }
     .notes-tag {
@@ -130,31 +130,36 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     }
     h1 {
         color: #1a365d;
-        font-size: 11.5pt;
+        font-size: 11pt;
         border-bottom: 1px solid #e2e8f0;
         padding-bottom: 2px;
-        margin-top: 10px;
-        margin-bottom: 4px;
+        margin-top: 5px;
+        margin-bottom: 2px;
     }
     h2 {
         color: #2b6cb0;
         font-size: 11pt;
-        margin: 10px 0 3px 0;
+        margin: 5px 0 2px 0;
     }
     h3 {
         color: #2c5282;
         font-size: 10pt;
-        margin: 8px 0 2px 0;
+        margin: 4px 0 2px 0;
+    }
+    h4 {
+        color: #9c4221;
+        font-size: 9.5pt;
+        margin: 3px 0 1px 0;
     }
     p { 
-        margin: 3px 0 5px 0; 
+        margin: 2px 0 3px 0; 
     }
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 6px 0;
-        font-size: 9.5pt;
-        line-height: 1.2;
+        margin: 4px 0;
+        font-size: 8.5pt;
+        line-height: 1.22;
     }
     th, td {
         border: 1px solid #cbd5e0;
@@ -170,21 +175,22 @@ def convert_raw_notes_to_pdf(md_file_path, output_pdf_path=None):
     blockquote {
         background-color: #f7fafc;
         border-left: 2.5px solid #3182ce;
-        margin: 5px 0;
-        padding: 4px 8px;
-        font-size: 10pt;
+        margin: 3px 0;
+        padding: 3px 6px;
+        font-size: 9pt;
+        line-height: 1.28;
     }
     ul, ol {
-        margin: 3px 0 5px 0;
+        margin: 2px 0 3px 0;
         padding-left: 14px;
     }
     li { 
-        margin-bottom: 3px; 
+        margin-bottom: 2px; 
     }
     hr {
         border: none;
         border-top: 1px solid #e2e8f0;
-        margin: 6px 0;
+        margin: 4px 0;
     }
     """
 
