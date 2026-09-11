@@ -1,6 +1,5 @@
-# merge_pdfs.py
-
 import os
+import io
 from pathlib import Path
 
 try:
@@ -8,6 +7,34 @@ try:
 except ImportError:
     print("Error: 'pypdf' is not available. Run: python -m pip install pypdf")
     exit(1)
+
+try:
+    from reportlab.pdfgen import canvas
+    from reportlab.lib.pagesizes import A4
+except ImportError:
+    print("Error: 'reportlab' is not available. Run: python -m pip install reportlab")
+    exit(1)
+
+def add_page_numbers_to_reader(reader):
+    """Generates an in-memory PDF containing simplified page numbers and merges them onto the reader's pages."""
+    num_pages = len(reader.pages)
+    packet = io.BytesIO()
+    
+    c = canvas.Canvas(packet, pagesize=A4)
+    c.setFont("Helvetica", 8)
+    c.setFillColorRGB(0.5, 0.5, 0.5)
+    
+    for i in range(num_pages):
+        page_str = f"{i + 1}/{num_pages}"
+        # A4 width is ~595.27, height is ~841.89 points.
+        # Bottom-right positioning: x = width - 40pt, y = 22pt
+        c.drawRightString(555, 22, page_str)
+        c.showPage()
+    c.save()
+    
+    packet.seek(0)
+    number_pdf = PdfReader(packet)
+    return number_pdf
 
 def merge_subject_pdfs():
     output_base = Path("output")
@@ -86,16 +113,28 @@ def merge_subject_pdfs():
                 for page in reader.pages:
                     writer.add_page(page)
 
+            temp_packet = io.BytesIO()
+            writer.write(temp_packet)
+            temp_packet.seek(0)
+            
+            merged_reader = PdfReader(temp_packet)
+            number_reader = add_page_numbers_to_reader(merged_reader)
+            
+            final_writer = PdfWriter()
+            for idx, page in enumerate(merged_reader.pages):
+                page.merge_page(number_reader.pages[idx])
+                final_writer.add_page(page)
+
             merged_out_dir = output_base / "merged_books" / cat_name.lower().replace(" ", "_")
             merged_out_dir.mkdir(parents=True, exist_ok=True)
             
             output_pdf_path = merged_out_dir / f"{subject_name}_complete.pdf"
             with open(output_pdf_path, "wb") as f:
-                writer.write(f)
+                final_writer.write(f)
             
-            print(f"    -> Saved: {output_pdf_path}")
+            print(f"    -> Saved with simplified pagination: {output_pdf_path}")
 
-    print("\nPDF merging complete!")
+    print("\nPDF merging and pagination complete!")
 
 if __name__ == "__main__":
     merge_subject_pdfs()

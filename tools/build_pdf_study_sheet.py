@@ -1,5 +1,3 @@
-# tools/build_pdf_study_sheet.py
-
 import os
 import sys
 import webbrowser
@@ -154,6 +152,7 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
         margin: 4px 0;
         font-size: 8.5pt;
         line-height: 1.22;
+        break-inside: avoid;
     }
     th, td {
         border: 1px solid #cbd5e0;
@@ -162,15 +161,18 @@ def convert_study_sheet_to_pdf(md_file_path, output_pdf_path=None):
         vertical-align: top;
     }
     th {
-        background-color: #ebf8ff;
+        background: transparent;
+        background-color: transparent;
+        border-bottom: 2px solid #2b6cb0;
         color: #2c5282;
         font-weight: bold;
     }
     blockquote {
-        background-color: #f7fafc;
+        background: transparent;
+        background-color: transparent;
         border-left: 2.5px solid #3182ce;
         margin: 3px 0;
-        padding: 3px 6px;
+        padding: 4px 6px;
         font-size: 9pt;
         line-height: 1.28;
     }
