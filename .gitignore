@@ -8,6 +8,9 @@ __pycache__/
 *.py[cod]
 *.class
 
+# Generated PDFs & Build Outputs
+output/
+
 # Temporary outputs & big assets (optional, saves storage)
 content/**/assets/*.mp4
 content/**/assets/*.wav
